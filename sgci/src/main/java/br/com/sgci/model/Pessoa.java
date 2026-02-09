@@ -1,174 +1,127 @@
-/*package br.com.sgci.model;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.validation.constraints.Size;
-
-public class Pessoa {
-	
-
-		@Id
-		@GeneratedValue(strategy = GenerationType.IDENTITY)
-		@Column(name = "ID_ENDERECO")
-		private Long id;  
-
-
-		@Size(max = 8)
-		@Column(name = "CEP")
-		private String cep;
-
-	
-		@Size(max = 255)
-		@Column(name = "ESTADO")
-		private String estado;
-
-		
-		@Size(max = 255)
-		@Column(name = "CIDADE")
-		private String cidade;
-
-		
-		@Size(max = 255)
-		@Column(name = "RUA")
-		private String rua;
-
-		
-		@Size(max = 255)
-		@Column(name = "BAIRRO")
-		private String bairro;
-
-
-		@Column(name = "NUMERO")
-		private Integer numero;
-
-
-}
-*/
-
-
 package br.com.sgci.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "PESSOA")
-
 public class Pessoa {
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_PESSOA")
-    private Long id;
-    
-    @ManyToOne
-    @JoinColumn(name = "ID_ENDERECO", referencedColumnName = "ID_ENDERECO")
-    private Endereco endereco;
-    
-    @Size(max = 255)
-    @Column(name = "NOME")
-    private String nome;
-    
-    @Size(max = 255)
-    @Column(name = "EN_TIPO")
-    private String tipo;
-    
-    @Size(max = 255)
-    @Column(name = "DOCUMENTO", unique = true)
-    private String documento;
-    
-    @Size(max = 255)
-    @Column(name = "TX_PROFISSAO")
-    private String profissao;
-    
-    @Size(max = 255)
-    @Column(name = "EN_ESTADO_CIVIL")
-    private String estadoCivil;
 
-    // Construtores
-    public Pessoa() {
-    }
-    
-    public Pessoa(
-            Endereco endereco,
-            @Size(max = 255) String nome,
-            @Size(max = 255) String tipo,
-            @Size(max = 255) String documento,
-            @Size(max = 255) String profissao,
-            @Size(max = 255) String estadoCivil) {
-        this.endereco = endereco;
-        this.nome = nome;
-        this.tipo = tipo;
-        this.documento = documento;
-        this.profissao = profissao;
-        this.estadoCivil = estadoCivil;
-    }
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID_PESSOA")
+	private Long id;
 
-    // Getters e Setters
-    public Long getId() {
-        return id;
-    }
-    
-    
+	@NotNull
+	@ManyToOne
+	@JoinColumn(name = "ID_ENDERECO")
+	private Endereco endereco;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	@NotNull
+	@Size(max = 255)
+	@Column(name = "NOME")
+	private String nome;
 
-    public Endereco getEndereco() {
-        return endereco;
-    }
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	@Column(name = "EN_TIPO")
+	private TipoPessoaEnum tipo;
 
-    public void setEndereco(Endereco endereco) {
-        this.endereco = endereco;
-    }
+	@NotNull
+	@Size(max = 255)
+	@Column(name = "DOCUMENTO", unique = true)
+	private String documento;
 
-    public String getNome() {
-        return nome;
-    }
+	@NotNull
+	@Size(max = 255)
+	@Column(name = "TX_PROFISSAO")
+	private String profissao;
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	@Column(name = "EN_ESTADO_CIVIL")
+	private EstadoCivilEnum estadoCivil;
 
-    public String getTipo() {
-        return tipo;
-    }
+	public Pessoa(
+			@NotNull Endereco endereco,
+			@NotNull @Size(max = 255) String nome,
+			@NotNull TipoPessoaEnum tipo,
+			@NotNull @Size(max = 255) String documento,
+			@NotNull @Size(max = 255) String profissao,
+			@NotNull EstadoCivilEnum estadoCivil) {
+		super();
+		this.endereco = endereco;
+		this.nome = nome;
+		this.tipo = tipo;
+		this.documento = documento;
+		this.profissao = profissao;
+		this.estadoCivil = estadoCivil;
+	}
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public String getDocumento() {
-        return documento;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setDocumento(String documento) {
-        this.documento = documento;
-    }
+	public Endereco getEndereco() {
+		return endereco;
+	}
 
-    public String getProfissao() {
-        return profissao;
-    }
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
+	}
 
-    public void setProfissao(String profissao) {
-        this.profissao = profissao;
-    }
+	public String getNome() {
+		return nome;
+	}
 
-    public String getEstadoCivil() {
-        return estadoCivil;
-    }
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 
-    public void setEstadoCivil(String estadoCivil) {
-        this.estadoCivil = estadoCivil;
-    }
+	public TipoPessoaEnum getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(TipoPessoaEnum tipo) {
+		this.tipo = tipo;
+	}
+
+	public String getDocumento() {
+		return documento;
+	}
+
+	public void setDocumento(String documento) {
+		this.documento = documento;
+	}
+
+	public String getProfissao() {
+		return profissao;
+	}
+
+	public void setProfissao(String profissao) {
+		this.profissao = profissao;
+	}
+
+	public EstadoCivilEnum getEstadoCivil() {
+		return estadoCivil;
+	}
+
+	public void setEstadoCivil(EstadoCivilEnum estadoCivil) {
+		this.estadoCivil = estadoCivil;
+	}
+
 }
